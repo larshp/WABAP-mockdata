@@ -1,0 +1,37 @@
+REPORT zfoobar.
+
+START-OF-SELECTION.
+  DATA: lt_table TYPE TABLE OF i,
+        lv_value LIKE LINE OF lt_table.
+
+  APPEND 2 TO lt_table.
+  APPEND 2 TO lt_table.
+
+  PERFORM run.
+
+CLASS lcl_class DEFINITION.
+
+  PUBLIC SECTION.
+    CLASS-METHODS: static IMPORTING iv_foo TYPE i.
+
+ENDCLASS.
+
+CLASS lcl_class IMPLEMENTATION.
+
+  METHOD static.
+    WRITE: / iv_foo.
+
+    READ TABLE lt_table INTO lv_value INDEX 1.
+
+    WRITE: / iv_foo.
+  ENDMETHOD.
+
+ENDCLASS.
+
+FORM run.
+
+  LOOP AT lt_table INTO lv_value.
+    lcl_class=>static( sy-tabix ).
+  ENDLOOP.
+
+ENDFORM.
